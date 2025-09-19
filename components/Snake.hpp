@@ -30,19 +30,51 @@ public:
 
   void removeTail()
   {
-    if (!pieces.empty())
-    {
-      pieces.pop();
-    }
+    pieces.pop();
   }
 
   SnakePiece tail()
   {
-    return pieces.back();
+    return pieces.front();
   }
 
   SnakePiece head()
   {
-    return pieces.front();
+    return pieces.back();
+  }
+
+  Direction getDirection()
+  {
+    return currentDirection;
+  }
+
+  void setDirection(Direction newDirection)
+  {
+    currentDirection = newDirection;
+  }
+
+  SnakePiece nextHeadPosition()
+  {
+    SnakePiece headPiece = head();
+    int newY = headPiece.getY();
+    int newX = headPiece.getX();
+
+    switch (currentDirection)
+    {
+    case UP:
+      newY -= 1;
+      break;
+    case DOWN:
+      newY += 1;
+      break;
+    case LEFT:
+      newX -= 1;
+      break;
+    case RIGHT:
+      newX += 1;
+      break;
+    }
+
+    return SnakePiece(newY, newX);
   }
 };

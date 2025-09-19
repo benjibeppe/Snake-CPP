@@ -13,6 +13,8 @@ int main()
 
   noecho();
 
+  curs_set(0);
+
   GameLogic game(BOARD_HEIGHT, BOARD_WIDTH);
 
   while (game.isGameOver() == false)

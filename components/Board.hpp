@@ -21,6 +21,7 @@ public:
   {
     getmaxyx(stdscr, rows, cols);
     boardWin = newwin(h, w, (rows / 2) - (h / 2), (cols / 2) - (w / 2));
+    keypad(boardWin, TRUE);
   }
 
   void clear()
@@ -42,7 +43,7 @@ public:
     drawBorder();
   }
 
-  char getInput()
+  int getInput()
   {
     return wgetch(boardWin);
   }
@@ -82,5 +83,7 @@ private:
     this->rows = rows;
     this->cols = cols;
     drawBorder();
+
+    wtimeout(boardWin, 1000);
   }
 };
