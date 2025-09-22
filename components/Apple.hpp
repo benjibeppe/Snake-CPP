@@ -10,5 +10,6 @@ public:
     this->y = y;
     this->x = x;
     this->representation = '@';
+    this->color = 5;
   }
 };

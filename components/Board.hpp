@@ -72,7 +72,17 @@ public:
 
   void add(Drawable drawable)
   {
-    addChar(drawable.getY(), drawable.getX(), drawable.getRepresentation());
+    if (drawable.getColor() != 0)
+    {
+      wattron(boardWin, COLOR_PAIR(drawable.getColor()));
+      mvwaddch(boardWin, drawable.getY(), drawable.getX(), drawable.getRepresentation());
+      wattroff(boardWin, COLOR_PAIR(drawable.getColor()));
+    }
+    else
+    {
+      mvwaddch(boardWin, drawable.getY(), drawable.getX(), drawable.getRepresentation());
+    }
+    wrefresh(boardWin);
   }
 
   void refresh()

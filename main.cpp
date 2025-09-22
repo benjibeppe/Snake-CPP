@@ -2,6 +2,7 @@
 #include "components/Board.hpp"
 #include "components/GameLogic.hpp"
 #include "components/Drawable.hpp"
+#include "components/Menu.hpp"
 
 #define BOARD_WIDTH 45
 #define BOARD_HEIGHT 20
@@ -11,21 +12,38 @@ int main()
   initscr();
   refresh();
 
-  noecho();
+  if (has_colors())
+  {
+    start_color();
+    use_default_colors();
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    init_pair(2, COLOR_RED, -1);
+    init_pair(3, COLOR_MAGENTA, -1);
+    init_pair(4, COLOR_GREEN, -1);
+    init_pair(5, COLOR_RED, -1);
+  }
 
   curs_set(0);
 
-  GameLogic game(BOARD_HEIGHT, BOARD_WIDTH);
+  Menu menu;
+  int choice = menu.show();
 
-  while (game.isGameOver() == false)
+  if (choice == 0)
   {
-    game.getInput();
-    game.updateGame();
-    game.render();
+    GameLogic game(BOARD_HEIGHT, BOARD_WIDTH);
+    while (!game.isGameOver())
+    {
+      game.getInput();
+      game.updateGame();
+      game.render();
+    }
+  }
+  else if (choice == 1)
+  {
+    mvprintw(0, 0, "Ranking");
+    refresh();
   }
 
-  getch();
   endwin();
-
   return 0;
 }

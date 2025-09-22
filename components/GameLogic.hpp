@@ -112,7 +112,10 @@ public:
   void updateGame()
   {
     SnakePiece nextHead = snake.nextHeadPosition();
-    switch (board.getCharAt(snake.nextHeadPosition().getY(), snake.nextHeadPosition().getX()))
+
+    int nextChar = board.getCharAt(nextHead.getY(), nextHead.getX()) & A_CHARTEXT;
+
+    switch (nextChar)
     {
     case '@':
       moveSnake(nextHead);

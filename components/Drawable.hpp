@@ -20,8 +20,10 @@ public:
   int getX() { return x; }
   int getY() { return y; }
   char getRepresentation() { return representation; }
+  int getColor() { return color; }
 
 protected:
+  int color;
   int y, x;
   char representation;
 };

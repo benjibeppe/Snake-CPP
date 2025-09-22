@@ -10,6 +10,7 @@ public:
     this->y = 0;
     this->x = 0;
     this->representation = 'o';
+    this->color = 4;
   }
 
   SnakePiece(int y, int x)
@@ -17,5 +18,6 @@ public:
     this->y = y;
     this->x = x;
     this->representation = 'o';
+    this->color = 4;
   }
 };
