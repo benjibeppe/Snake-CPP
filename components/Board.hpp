@@ -7,6 +7,8 @@
 class Board
 {
 public:
+  int snakeSpeed = 200;
+
   Board(int h, int w)
   {
     defaultConstructor(h, w);
@@ -73,6 +75,11 @@ public:
     wrefresh(boardWin);
   }
 
+  void setTimeout(int ms)
+  {
+    wtimeout(boardWin, ms);
+  }
+
 private:
   WINDOW *boardWin;
   int rows, cols;
@@ -84,6 +91,6 @@ private:
     this->cols = cols;
     drawBorder();
 
-    wtimeout(boardWin, 1000);
+    wtimeout(boardWin, snakeSpeed);
   }
 };

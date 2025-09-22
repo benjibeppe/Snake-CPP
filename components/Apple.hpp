@@ -9,6 +9,6 @@ public:
   {
     this->y = y;
     this->x = x;
-    this->representation = 'A';
+    this->representation = '@';
   }
 };

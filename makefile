@@ -1,4 +1,4 @@
 all: main
 
-main: main.cpp components/Board.hpp components/GameLogic.hpp
+main: main.cpp components/*
 	g++ -o main main.cpp -lncurses

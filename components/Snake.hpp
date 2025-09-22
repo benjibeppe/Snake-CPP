@@ -50,6 +50,13 @@ public:
 
   void setDirection(Direction newDirection)
   {
+    if ((currentDirection == UP && newDirection == DOWN) ||
+        (currentDirection == DOWN && newDirection == UP) ||
+        (currentDirection == LEFT && newDirection == RIGHT) ||
+        (currentDirection == RIGHT && newDirection == LEFT))
+    {
+      return;
+    }
     currentDirection = newDirection;
   }
 
@@ -73,7 +80,7 @@ public:
     case RIGHT:
       newX += 1;
       break;
-    }
+        }
 
     return SnakePiece(newY, newX);
   }

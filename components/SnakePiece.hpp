@@ -9,13 +9,13 @@ public:
   {
     this->y = 0;
     this->x = 0;
-    this->representation = 'O';
+    this->representation = 'o';
   }
 
   SnakePiece(int y, int x)
   {
     this->y = y;
     this->x = x;
-    this->representation = 'O';
+    this->representation = 'o';
   }
 };

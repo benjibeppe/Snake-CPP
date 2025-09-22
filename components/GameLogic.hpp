@@ -34,9 +34,16 @@ public:
     for (int i = 0; i < snakeLength; ++i)
     {
       SnakePiece piece(snakeStartingY, snakeStartingX - i);
-      board.add(piece);
-      snake.addPiece(piece);
+      addSnakePiece(piece);
     }
+
+    generateApple();
+  }
+
+  void addSnakePiece(SnakePiece piece)
+  {
+    snake.addPiece(piece);
+    board.add(piece);
   }
 
   bool isGameOver()
@@ -50,16 +57,34 @@ public:
     switch (input)
     {
     case KEY_UP:
+    case 'w':
+    case 'W':
       snake.setDirection(UP);
       break;
+
     case KEY_DOWN:
+    case 's':
+    case 'S':
       snake.setDirection(DOWN);
       break;
+
     case KEY_LEFT:
+    case 'a':
+    case 'A':
       snake.setDirection(LEFT);
       break;
+
     case KEY_RIGHT:
+    case 'd':
+    case 'D':
       snake.setDirection(RIGHT);
+      break;
+
+    case 27:
+      board.setTimeout(-1);
+      while (board.getInput() != 27) // ASCII per ESC
+        ;
+      board.setTimeout(board.snakeSpeed);
       break;
     }
   }
@@ -73,19 +98,26 @@ public:
     lastAppleX = x;
   }
 
+  void moveSnake(SnakePiece nextHead)
+  {
+    SnakePiece tail = snake.tail();
+    int tailY = tail.getY();
+    int tailX = tail.getX();
+    board.add(Empty(tailY, tailX));
+    snake.removeTail();
+
+    addSnakePiece(nextHead);
+  }
+
   void updateGame()
   {
     SnakePiece nextHead = snake.nextHeadPosition();
 
-    if (nextHead.getY() != lastAppleY || nextHead.getX() != lastAppleX)
+    moveSnake(nextHead);
+
+    if (nextHead.getY() == lastAppleY && nextHead.getX() == lastAppleX)
     {
-      SnakePiece tail = snake.tail();
-      int tailY = tail.getY();
-      int tailX = tail.getX();
-      board.add(Empty(tailY, tailX));
-      snake.removeTail();
-      board.add(nextHead);
-      snake.addPiece(nextHead);
+      generateApple();
     }
   }
 
