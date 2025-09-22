@@ -112,12 +112,18 @@ public:
   void updateGame()
   {
     SnakePiece nextHead = snake.nextHeadPosition();
-
-    moveSnake(nextHead);
-
-    if (nextHead.getY() == lastAppleY && nextHead.getX() == lastAppleX)
+    switch (board.getCharAt(snake.nextHeadPosition().getY(), snake.nextHeadPosition().getX()))
     {
+    case '@':
+      moveSnake(nextHead);
       generateApple();
+      break;
+    case ' ':
+      moveSnake(nextHead);
+      break;
+    default:
+      gameOver = true;
+      return;
     }
   }
 

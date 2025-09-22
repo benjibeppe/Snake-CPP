@@ -50,6 +50,11 @@ public:
     return wgetch(boardWin);
   }
 
+  int getCharAt(int y, int x)
+  {
+    return mvwinch(boardWin, y, x);
+  }
+
   void getEmptyCoordinates(int &y, int &x)
   {
     do
