@@ -33,6 +33,13 @@ public:
     wrefresh(boardWin);
   }
 
+  void clearCell(int y, int x)
+  {
+    wattrset(boardWin, A_NORMAL);
+    wcolor_set(boardWin, 0, NULL);
+    mvwaddch(boardWin, y, x, ' ' | A_NORMAL);
+  }
+
   void drawBorder()
   {
     wattron(boardWin, COLOR_PAIR(3));
@@ -72,7 +79,7 @@ public:
 
   void addChar(int y, int x, char ch)
   {
-    mvwaddch(boardWin, y, x, ch);
+    mvwaddch(boardWin, y, x, ch | A_NORMAL);
     wrefresh(boardWin);
   }
 
@@ -86,7 +93,7 @@ public:
     }
     else
     {
-      mvwaddch(boardWin, drawable.getY(), drawable.getX(), drawable.getRepresentation());
+      mvwaddch(boardWin, drawable.getY(), drawable.getX(), drawable.getRepresentation() | A_NORMAL);
     }
     wrefresh(boardWin);
   }

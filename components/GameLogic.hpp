@@ -128,7 +128,7 @@ public:
     board.add(body);
 
     SnakePiece tail = snake.tail();
-    board.add(Empty(tail.getY(), tail.getX()));
+    board.clearCell(tail.getY(), tail.getX());
     snake.removeTail();
 
     nextHead.setRepresentation('@');
