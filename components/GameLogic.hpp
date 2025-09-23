@@ -17,6 +17,22 @@ private:
   int snakeStartingY = 9;
   Snake snake;
 
+  char headChar(Direction d)
+  {
+    switch (d)
+    {
+    case UP:
+      return '^';
+    case DOWN:
+      return 'v';
+    case LEFT:
+      return '<';
+    case RIGHT:
+      return '>';
+    }
+    return 'o';
+  }
+
 public:
   GameLogic(int h, int w)
   {
@@ -36,6 +52,11 @@ public:
       SnakePiece piece(snakeStartingY, snakeStartingX - i);
       addSnakePiece(piece);
     }
+
+    SnakePiece h = snake.head();
+    SnakePiece head(h.getY(), h.getX());
+    head.setRepresentation('@');
+    board.add(head);
 
     generateApple();
   }
@@ -100,12 +121,17 @@ public:
 
   void moveSnake(SnakePiece nextHead)
   {
+    SnakePiece currHead = snake.head();
+
+    SnakePiece body(currHead.getY(), currHead.getX());
+    body.setRepresentation('o');
+    board.add(body);
+
     SnakePiece tail = snake.tail();
-    int tailY = tail.getY();
-    int tailX = tail.getX();
-    board.add(Empty(tailY, tailX));
+    board.add(Empty(tail.getY(), tail.getX()));
     snake.removeTail();
 
+    nextHead.setRepresentation('@');
     addSnakePiece(nextHead);
   }
 

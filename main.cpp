@@ -22,6 +22,7 @@ int main()
     init_pair(3, COLOR_MAGENTA, -1);
     init_pair(4, COLOR_GREEN, -1);
     init_pair(5, COLOR_RED, -1);
+    init_pair(6, COLOR_BLUE, -1);
   }
 
   curs_set(0);
