@@ -11,6 +11,7 @@ int main()
 {
   initscr();
   refresh();
+  noecho();
 
   if (has_colors())
   {

@@ -35,13 +35,19 @@ public:
 
   void drawBorder()
   {
-    box(boardWin, 0, 0);
+    wattron(boardWin, COLOR_PAIR(3));
+    wborder(boardWin,
+            ACS_VLINE, ACS_VLINE,
+            ACS_HLINE, ACS_HLINE,
+            ACS_ULCORNER, ACS_URCORNER,
+            ACS_LLCORNER, ACS_LRCORNER);
+    wattroff(boardWin, COLOR_PAIR(3));
     wrefresh(boardWin);
   }
 
   void redrawBoard()
   {
-    clear();
+    werase(boardWin);
     drawBorder();
   }
 

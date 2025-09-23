@@ -80,7 +80,7 @@ public:
     case RIGHT:
       newX += 1;
       break;
-        }
+    }
 
     return SnakePiece(newY, newX);
   }
