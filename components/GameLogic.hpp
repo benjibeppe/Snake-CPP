@@ -4,6 +4,7 @@
 #include "Apple.hpp"
 #include "Empty.hpp"
 #include "Snake.hpp"
+#include "Pause.hpp"
 
 class GameLogic
 {
@@ -15,23 +16,10 @@ private:
   int snakeLength = 23;
   int snakeStartingX = 27;
   int snakeStartingY = 9;
+  bool paused = false;
+  int score = 0;
   Snake snake;
-
-  char headChar(Direction d)
-  {
-    switch (d)
-    {
-    case UP:
-      return '^';
-    case DOWN:
-      return 'v';
-    case LEFT:
-      return '<';
-    case RIGHT:
-      return '>';
-    }
-    return 'o';
-  }
+  Pause *pauseMenu = nullptr;
 
 public:
   GameLogic(int h, int w)
@@ -102,10 +90,7 @@ public:
       break;
 
     case 27:
-      board.setTimeout(-1);
-      while (board.getInput() != 27) // ASCII per ESC
-        ;
-      board.setTimeout(board.snakeSpeed);
+      togglePause();
       break;
     }
   }
@@ -137,6 +122,9 @@ public:
 
   void updateGame()
   {
+    if (paused)
+      return;
+
     SnakePiece nextHead = snake.nextHeadPosition();
 
     int nextChar = board.getCharAt(nextHead.getY(), nextHead.getX()) & A_CHARTEXT;
@@ -146,12 +134,30 @@ public:
     case '@':
       moveSnake(nextHead);
       generateApple();
+      updateScore(10);
       break;
     case ' ':
       moveSnake(nextHead);
       break;
-    default:
+    case 'o':
       gameOver = true;
+      return;
+    default:
+      int maxY = board.getRows() - 2;
+      int maxX = board.getCols() - 2;
+
+      if (nextHead.getY() <= 0) // sopra
+        nextHead.setY(maxY);
+      else if (nextHead.getY() >= maxY + 1) // sotto
+        nextHead.setY(1);
+
+      if (nextHead.getX() <= 0) // sinistra
+        nextHead.setX(maxX);
+      else if (nextHead.getX() >= maxX + 1) // destra
+        nextHead.setX(1);
+
+      moveSnake(nextHead);
+      break;
       return;
     }
   }
@@ -159,5 +165,32 @@ public:
   void render()
   {
     board.refresh();
+  }
+
+  void togglePause()
+  {
+    if (!paused)
+    {
+      paused = true;
+      pauseMenu = new Pause(board.getRows(), board.getCols());
+      pauseMenu->drawBorder();
+    }
+    else
+    {
+      paused = false;
+      delete pauseMenu;
+      pauseMenu = nullptr;
+      board.redrawBoard();
+    }
+  }
+
+  void updateScore(int points)
+  {
+    score += points;
+  }
+
+  bool isPaused() const
+  {
+    return paused;
   }
 };

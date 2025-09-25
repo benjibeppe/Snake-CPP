@@ -108,6 +108,15 @@ public:
     wtimeout(boardWin, ms);
   }
 
+  int getRows() { return rows; }
+  int getCols() { return cols; }
+
+  int getStartY() { return (rows / 2) - (rows / 2); }
+  int getStartX()
+  {
+    return (cols / 2) - (cols / 2);
+  }
+
 private:
   WINDOW *boardWin;
   int rows, cols;
@@ -115,8 +124,8 @@ private:
   void defaultConstructor(int h, int w)
   {
     createWindow(h, w);
-    this->rows = rows;
-    this->cols = cols;
+    rows = h;
+    cols = w;
     drawBorder();
 
     wtimeout(boardWin, snakeSpeed);

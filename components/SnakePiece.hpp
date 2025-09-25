@@ -22,4 +22,6 @@ public:
 
   void setRepresentation(char c) { this->representation = c; }
   void setColor(int c) { this->color = c; }
+  void setX(int x) { this->x = x; }
+  void setY(int y) { this->y = y; }
 };

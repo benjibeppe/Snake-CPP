@@ -82,8 +82,8 @@ public:
 
 private:
   WINDOW *menu;
-  const int rows = 15;
-  const int cols = 50;
+  const int rows = 12;
+  const int cols = 22;
   int start_y = 5;
 
   static const int NUM_OPTIONS = 3;
