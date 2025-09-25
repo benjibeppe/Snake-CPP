@@ -29,23 +29,34 @@ int main()
 
   curs_set(0);
 
-  Menu menu;
-  int choice = menu.show();
+  bool running = true;
+  while (running)
+  {
+    Menu menu;
+    int choice = menu.show();
 
-  if (choice == 0)
-  {
-    GameLogic game(BOARD_HEIGHT, BOARD_WIDTH);
-    while (!game.isGameOver())
+    if (choice == 0)
     {
-      game.getInput();
-      game.updateGame();
-      game.render();
+      GameLogic game(BOARD_HEIGHT, BOARD_WIDTH);
+      while (!game.isGameOver())
+      {
+        game.getInput();
+        game.updateGame();
+        game.render();
+      }
+
+      clear();
+      refresh();
     }
-  }
-  else if (choice == 1)
-  {
-    mvprintw(0, 0, "Ranking");
-    refresh();
+    else if (choice == 1)
+    {
+      mvprintw(0, 0, "Ranking");
+      refresh();
+    }
+    else if (choice == 2)
+    {
+      running = false;
+    }
   }
 
   endwin();
