@@ -166,6 +166,12 @@ public:
         nextHead.setX(1);
 
       moveSnake(nextHead);
+
+      if (nextHead.getY() == lastAppleY && nextHead.getX() == lastAppleX)
+      {
+        generateApple();
+        updateScore(10);
+      }
       break;
       return;
     }
@@ -201,7 +207,7 @@ public:
 
   void updateScore(int points)
   {
-    score += points;
+    score = score + points;
     scoreWin->setScore(score);
   }
 
