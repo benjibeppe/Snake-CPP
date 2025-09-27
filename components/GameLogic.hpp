@@ -173,13 +173,19 @@ public:
     {
       paused = true;
       pauseMenu = new Pause(board.getRows(), board.getCols());
-      pauseMenu->drawBorder();
-    }
-    else
-    {
-      paused = false;
+      int choice = pauseMenu->show();
       delete pauseMenu;
       pauseMenu = nullptr;
+      paused = false;
+
+      if (choice == 1)
+      {
+        // Cambia livello: implementa qui la logica
+      }
+      else if (choice == 2)
+      {
+        gameOver = true;
+      }
       render();
     }
   }
