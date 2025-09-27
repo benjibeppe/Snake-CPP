@@ -180,7 +180,7 @@ public:
       paused = false;
       delete pauseMenu;
       pauseMenu = nullptr;
-      board.redrawBoard();
+      render();
     }
   }
 

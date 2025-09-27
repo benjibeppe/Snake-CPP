@@ -3,27 +3,45 @@
 
 class Pause
 {
-
 public:
   Pause(int boardH, int boardW)
   {
+    this->boardW = boardW;
     int pauseH = boardH;
     int pauseW = boardW / 2;
+    pauseWin = nullptr;
     createWindow(pauseH, pauseW);
+  }
+
+  ~Pause()
+  {
+    if (pauseWin)
+    {
+      werase(pauseWin);
+      wrefresh(pauseWin);
+      delwin(pauseWin);
+      pauseWin = nullptr;
+    }
   }
 
   void createWindow(int h, int w)
   {
-    getmaxyx(stdscr, rows, cols);
-    int starty = (rows / 2) - (h / 2);
-    int startx = (cols / 2) - (w / 2) + 5;
-    pauseWin = newwin(h, w, starty, startx);
+    int boardRows, boardCols;
+    getmaxyx(stdscr, boardRows, boardCols);
+    int boardStartY = (boardRows / 2) - (h / 2);
+    int boardStartX = (boardCols / 2) - (boardW / 2);
+
+    int pauseStartY = boardStartY;
+    int pauseStartX = boardStartX + boardW + 1;
+
+    pauseWin = newwin(h, w, pauseStartY, pauseStartX);
     keypad(pauseWin, TRUE);
   }
 
-  void
-  drawBorder()
+  void drawBorder()
   {
+    if (!pauseWin)
+      return;
     wattron(pauseWin, COLOR_PAIR(2));
     wborder(pauseWin,
             ACS_VLINE, ACS_VLINE,
@@ -37,4 +55,5 @@ public:
 private:
   WINDOW *pauseWin;
   int rows, cols;
+  int boardW;
 };
