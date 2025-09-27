@@ -39,7 +39,7 @@ public:
       werase(pauseWin);
       drawBorder();
 
-      const char *title = "PAUSA";
+      const char *title = "PAUSE";
       int title_x = (cols - strlen(title)) / 2;
 
       wattron(pauseWin, COLOR_PAIR(2) | A_BOLD | A_UNDERLINE);
@@ -117,7 +117,7 @@ private:
   int start_y = 5;
 
   static const int NUM_OPTIONS = 3;
-  const char *options[NUM_OPTIONS] = {"Riprendi", "Cambia livello", "Esci"};
+  const char *options[NUM_OPTIONS] = {"Continue", "Change level", "Exit"};
 
   void createWindow(int h, int w)
   {

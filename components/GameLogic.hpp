@@ -5,6 +5,7 @@
 #include "Empty.hpp"
 #include "Snake.hpp"
 #include "Pause.hpp"
+#include "Score.hpp"
 
 class GameLogic
 {
@@ -20,17 +21,25 @@ private:
   int score = 0;
   Snake snake;
   Pause *pauseMenu = nullptr;
+  Score *scoreWin = nullptr;
 
 public:
   GameLogic(int h, int w)
   {
     board = Board(h, w);
+    scoreWin = new Score(h, w, 12, 22);
     createGame();
+  }
+
+  ~GameLogic()
+  {
+    delete scoreWin;
   }
 
   void createGame()
   {
     gameOver = false;
+    scoreWin->setScore(0);
     srand(time(0));
     lastAppleY = -1;
     lastAppleX = -1;
@@ -193,6 +202,7 @@ public:
   void updateScore(int points)
   {
     score += points;
+    scoreWin->setScore(score);
   }
 
   bool isPaused() const
