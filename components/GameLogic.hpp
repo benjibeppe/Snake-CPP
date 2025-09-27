@@ -22,11 +22,13 @@ private:
   Snake snake;
   Pause *pauseMenu = nullptr;
   Score *scoreWin = nullptr;
+  time_t lastAppleTime = 0;
 
 public:
   GameLogic(int h, int w)
   {
     board = Board(h, w);
+    board.setTimeout(board.snakeSpeed);
     scoreWin = new Score(h, w, 12, 22);
     createGame();
   }
@@ -56,6 +58,7 @@ public:
     board.add(head);
 
     generateApple();
+    lastAppleTime = time(nullptr);
   }
 
   void addSnakePiece(SnakePiece piece)
@@ -134,6 +137,13 @@ public:
     if (paused)
       return;
 
+    time_t now = time(nullptr);
+    if (now - lastAppleTime >= 2.2)
+    {
+      generateApple();
+      lastAppleTime = now;
+    }
+
     SnakePiece nextHead = snake.nextHeadPosition();
 
     int nextChar = board.getCharAt(nextHead.getY(), nextHead.getX()) & A_CHARTEXT;
@@ -142,7 +152,6 @@ public:
     {
     case '@':
       moveSnake(nextHead);
-      generateApple();
       updateScore(10);
       break;
     case ' ':
@@ -169,7 +178,6 @@ public:
 
       if (nextHead.getY() == lastAppleY && nextHead.getX() == lastAppleX)
       {
-        generateApple();
         updateScore(10);
       }
       break;
