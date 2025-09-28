@@ -1,22 +1,20 @@
 #pragma once
 #include <ncurses.h>
 #include "Drawable.hpp"
-#include <time.h>
+#include "Time.hpp"
 #include <stdlib.h>
 
 class Board
 {
 public:
-  int snakeSpeed = 200;
-
-  Board(int h, int w)
+  Board(int h, int w, int snakeSpeed)
   {
-    defaultConstructor(h, w);
+    defaultConstructor(h, w, snakeSpeed);
   }
 
   Board()
   {
-    defaultConstructor(20, 45); // Default size if not specified
+    defaultConstructor(20, 45, 200); // Default size if not specified
   }
 
   void createWindow(int h, int w)
@@ -60,7 +58,24 @@ public:
 
   int getInput()
   {
-    return wgetch(boardWin);
+    time_t timeLastInput = Time::milliseconds();
+
+    int input = wgetch(boardWin);
+    int newInput = ERR;
+
+    setTimeout(0);
+    while (timeLastInput + snakeSpeed >= Time::milliseconds())
+    {
+      newInput = wgetch(boardWin);
+    }
+
+    if (newInput != ERR)
+    {
+      input = newInput;
+    }
+
+    setTimeout(snakeSpeed);
+    return input;
   }
 
   int getCharAt(int y, int x)
@@ -108,6 +123,11 @@ public:
     wtimeout(boardWin, ms);
   }
 
+  int getTimeout()
+  {
+    return snakeSpeed;
+  }
+
   int getRows() { return rows; }
   int getCols() { return cols; }
 
@@ -120,14 +140,15 @@ public:
 private:
   WINDOW *boardWin;
   int rows, cols;
+  int snakeSpeed;
 
-  void defaultConstructor(int h, int w)
+  void defaultConstructor(int h, int w, int snakeSpeed)
   {
     createWindow(h, w);
     rows = h;
     cols = w;
+    this->snakeSpeed = snakeSpeed;
+    setTimeout(snakeSpeed);
     drawBorder();
-
-    wtimeout(boardWin, snakeSpeed);
   }
 };

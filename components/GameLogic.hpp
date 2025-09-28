@@ -27,8 +27,7 @@ private:
 public:
   GameLogic(int h, int w)
   {
-    board = Board(h, w);
-    board.setTimeout(board.snakeSpeed);
+    board = Board(h, w, 200);
     scoreWin = new Score(h, w, 12, 22);
     createGame();
   }
@@ -75,6 +74,8 @@ public:
   void getInput()
   {
     int input = board.getInput();
+    int oldTimeout = board.getTimeout();
+
     switch (input)
     {
     case KEY_UP:
@@ -102,7 +103,7 @@ public:
       break;
 
     case 27:
-      togglePause();
+      togglePause(oldTimeout);
       break;
     }
   }
@@ -138,7 +139,7 @@ public:
       return;
 
     time_t now = time(nullptr);
-    if (now - lastAppleTime >= 2.2)
+    if (now - lastAppleTime >= 1.5)
     {
       generateApple();
       lastAppleTime = now;
@@ -190,7 +191,7 @@ public:
     board.refresh();
   }
 
-  void togglePause()
+  void togglePause(int oldTimeout)
   {
     if (!paused)
     {
@@ -200,6 +201,7 @@ public:
       delete pauseMenu;
       pauseMenu = nullptr;
       paused = false;
+      board.setTimeout(oldTimeout);
 
       if (choice == 1)
       {
