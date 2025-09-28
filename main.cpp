@@ -4,7 +4,7 @@
 #include "components/Drawable.hpp"
 #include "components/Menu.hpp"
 
-#define BOARD_WIDTH 45
+#define BOARD_WIDTH 29
 #define BOARD_HEIGHT 20
 
 int main()

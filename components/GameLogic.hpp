@@ -27,7 +27,7 @@ private:
 public:
   GameLogic(int h, int w)
   {
-    board = Board(h, w, 200);
+    board = Board(h, w, 150);
     scoreWin = new Score(h, w, 12, 22);
     createGame();
   }

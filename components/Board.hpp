@@ -7,14 +7,9 @@
 class Board
 {
 public:
-  Board(int h, int w, int snakeSpeed)
+  Board(int h = 20, int w = 29, int snakeSpeed = 150)
   {
     defaultConstructor(h, w, snakeSpeed);
-  }
-
-  Board()
-  {
-    defaultConstructor(20, 45, 200); // Default size if not specified
   }
 
   void createWindow(int h, int w)
