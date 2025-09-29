@@ -6,6 +6,7 @@
 #include "Snake.hpp"
 #include "Pause.hpp"
 #include "Score.hpp"
+#include "ChangeLevel.hpp"
 
 class GameLogic
 {
@@ -23,6 +24,25 @@ private:
   Pause *pauseMenu = nullptr;
   Score *scoreWin = nullptr;
   time_t lastAppleTime = 0;
+
+  // Applica le impostazioni del livello selezionato
+  void applyLevelSettings(ChangeLevel *levelSelector)
+  {
+    if (levelSelector)
+    {
+      // Aggiorna le impostazioni del gioco
+      int newSpeed = levelSelector->getCurrentSpeed();
+      int newTargetScore = levelSelector->getCurrentScoreToWin();
+      int newTimeLimit = levelSelector->getCurrentTime();
+
+      // Applica la nuova velocità alla board
+      board.setTimeout(newSpeed);
+
+      // Qui potresti aggiornare altre variabili se le avessi
+      // targetScore = newTargetScore;
+      // timeLimit = newTimeLimit;
+    }
+  }
 
 public:
   GameLogic(int h, int w)
@@ -196,21 +216,40 @@ public:
     if (!paused)
     {
       paused = true;
+
       pauseMenu = new Pause(board.getRows(), board.getCols());
-      int choice = pauseMenu->show();
+
+      bool stayInPause = true;
+      while (stayInPause)
+      {
+        int choice = pauseMenu->show();
+
+        if (choice == 0) // Continue
+        {
+          stayInPause = false;
+        }
+        else if (choice == 1) // Change level
+        {
+          ChangeLevel levelSelector(board.getRows(), board.getCols());
+          int levelChoice = levelSelector.showLevelSelection();
+
+          if (levelChoice != -1) // Se un livello è stato selezionato
+          {
+            applyLevelSettings(&levelSelector);
+            stayInPause = false;
+          }
+          // Se levelChoice == -1 (ESC), stayInPause rimane true e torna al menu pause
+        }
+        else if (choice == 2) // Exit
+        {
+          gameOver = true;
+          stayInPause = false;
+        }
+      }
       delete pauseMenu;
       pauseMenu = nullptr;
       paused = false;
       board.setTimeout(oldTimeout);
-
-      if (choice == 1)
-      {
-        // Cambia livello: implementa qui la logica
-      }
-      else if (choice == 2)
-      {
-        gameOver = true;
-      }
       render();
     }
   }

@@ -21,8 +21,8 @@ private:
   Levels *current;
   WINDOW *levelWin;
   int boardH, boardW;
-  static const int NUM_LEVELS = 5;
-  const char *levelNames[NUM_LEVELS] = {"Easy", "Medium", "Hard", "Expert", "Godlike"};
+  static const int NUM_LEVELS = 6;
+  const char *levelNames[NUM_LEVELS] = {"Easy", "Medium", "Hard", "Expert", "Godlike", "Exit"};
 
 public:
   // Costruttore che posiziona la finestra a sinistra della board
@@ -79,11 +79,10 @@ public:
           // Livello selezionato
           wattron(levelWin, COLOR_PAIR(1) | A_BOLD);
           mvwprintw(levelWin, y, 2, "> Level %d <%s", temp->level, "");
-          mvwprintw(levelWin, y + 1, 3, "%s", levelNames[i]);
-          mvwprintw(levelWin, y + 2, 3, "Speed: %dms", temp->speed);
-          mvwprintw(levelWin, y + 3, 3, "Score: %d", temp->scoreToWin);
+          mvwprintw(levelWin, y + 1, 3, "Speed: %dms", temp->speed);
+          mvwprintw(levelWin, y + 1, 3, "Score: %d", temp->scoreToWin);
           wattroff(levelWin, COLOR_PAIR(1) | A_BOLD);
-          y += 5;
+          y += 4;
         }
         else
         {
@@ -94,6 +93,8 @@ public:
           y += 2;
         }
       }
+
+      wrefresh(levelWin); // Aggiunto refresh mancante
 
       c = wgetch(levelWin);
       switch (c)
@@ -133,6 +134,21 @@ public:
       temp = temp->nextLevel;
     }
     return false;
+  }
+
+  int getCurrentSpeed() const
+  {
+    return current->speed;
+  }
+
+  int getCurrentScoreToWin() const
+  {
+    return current->scoreToWin;
+  }
+
+  int getCurrentTime() const
+  {
+    return current->time;
   }
 
 private:
