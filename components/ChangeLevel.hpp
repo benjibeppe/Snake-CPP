@@ -21,8 +21,8 @@ private:
   Levels *current;
   WINDOW *levelWin;
   int boardH, boardW;
-  static const int NUM_LEVELS = 6;
-  const char *levelNames[NUM_LEVELS] = {"Easy", "Medium", "Hard", "Expert", "Godlike", "Exit"};
+  static const int NUM_LEVELS = 5;
+  const char *levelNames[NUM_LEVELS] = {"Easy", "Medium", "Hard", "Expert", "Godlike"};
 
 public:
   // Costruttore che posiziona la finestra a sinistra della board
@@ -80,7 +80,7 @@ public:
           wattron(levelWin, COLOR_PAIR(1) | A_BOLD);
           mvwprintw(levelWin, y, 2, "> Level %d <%s", temp->level, "");
           mvwprintw(levelWin, y + 1, 3, "Speed: %dms", temp->speed);
-          mvwprintw(levelWin, y + 1, 3, "Score: %d", temp->scoreToWin);
+          mvwprintw(levelWin, y + 2, 3, "Score: %d", temp->scoreToWin);
           wattroff(levelWin, COLOR_PAIR(1) | A_BOLD);
           y += 4;
         }
@@ -94,7 +94,11 @@ public:
         }
       }
 
-      wrefresh(levelWin); // Aggiunto refresh mancante
+      wattron(levelWin, COLOR_PAIR(4));
+      mvwprintw(levelWin, boardH - 3, 3, "ESC to exit");
+      wattroff(levelWin, COLOR_PAIR(4));
+
+      wrefresh(levelWin);
 
       c = wgetch(levelWin);
       switch (c)
